@@ -2,43 +2,42 @@ namespace GradeBook
 {
     class Calculator
     {
-        public void DisplaySumOfGrades()
+        private double sumOfGrades;
+        private double lowestGrade = 101;
+        private double highestGrade = double.MinValue;
+        private double averageScore = 0;
+
+        public void AddGrade(double grade, List<double>grades)
         {
-            var sumOfGrades = 0;
-            for (int i = 0; i < grades.Length; i++)
+            if (grade >= 0 && grade <= 100)
+            {
+                grades.Add(grade);
+            }
+        }
+        public void GetSumOfGrades(List<double>grades)
+        {
+            for (int i = 0; i < grades.Count; i++)
             {
                 sumOfGrades += grades[i];
             }
-            Console.WriteLine($"average score: {sumOfGrades / grades.Length}");
         }
-        public void DisplayHighestGrade()
+        public void GetHighestGrade(List<double>grades)
         {
-            var highestGrade = double.MinValue;
             foreach (var number in grades)
             {
                 highestGrade = Math.Max(number, highestGrade);
             }
-            Console.WriteLine("highest grade: " + highestGrade);
         }
-        public void DisplayLowestGrade()
+        public void GetLowestGrade(List<double>grades)
         {
-            var lowestGrade = 0;
             foreach (var number in grades)
             {
-                lowestGrade = Math.Max(number, lowestGrade);
+                lowestGrade = Math.Min(number, lowestGrade);
             }
-            Console.WriteLine("highest grade: " + lowestGrade);
         }
-        public void DisplayAverageGrade()
+        public void GetAverageGrade(List<double>grades)
         {
-            double averageScore = 0;
-            double sum = 0;
-            foreach (double number in scores)
-            {
-                sum += number;
-            }
-            averageScore = sum / scores.Count;
-            Console.WriteLine($"average score: {averageScore:N2}");
+            averageScore = sumOfGrades / grades.Count;
         }
     }
 }
