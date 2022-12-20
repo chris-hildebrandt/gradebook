@@ -5,9 +5,6 @@ namespace GradeBook
         private List<double> grades;
         private string name;
         private double sumOfGrades;
-        private double lowestGrade = 101;
-        private double highestGrade = double.MinValue;
-        private double averageScore = 0;
         public Book(string name)
         {
             grades = new List<double>();
@@ -20,6 +17,23 @@ namespace GradeBook
                 grades.Add(grade);
             }
         }
+        public Stats GetStats()
+        {
+            var result = new Stats();
+            result.Average = 0.0;
+            result.HighScore = double.MinValue;
+            result.LowScore = 101;
+            foreach (var grade in grades)
+            {
+                result.LowScore = Math.Min(grade, result.LowScore);
+                result.HighScore = Math.Max(grade, result.HighScore);
+                result.Average += grade;
+            }
+            result.Average /= grades.Count;
+            Console.WriteLine($"Statistics for {name}'s class:");
+            Console.WriteLine($"Number of Students: {grades.Count}");
+            return result;
+        }
         public void GetSumOfGrades()
         {
             for (int i = 0; i < grades.Count; i++)
@@ -27,31 +41,33 @@ namespace GradeBook
                 sumOfGrades += grades[i];
             }
         }
-        public void GetHighestGrade()
+        public double GetHighestGrade()
         {
+            double highScore = double.MinValue;
             foreach (var number in grades)
             {
-                highestGrade = Math.Max(number, highestGrade);
+                highScore = Math.Max(number, highScore);
             }
+            return highScore;
         }
-        public void GetLowestGrade()
+        public double GetLowestGrade()
         {
+            double lowScore = 101;
             foreach (var number in grades)
             {
-                lowestGrade = Math.Min(number, lowestGrade);
+                lowScore = Math.Min(number, lowScore);
             }
+            return lowScore;
         }
-        public void GetAverageGrade()
+        public double GetAverageGrade()
         {
-            averageScore = sumOfGrades / grades.Count;
+            double averageScore = sumOfGrades / grades.Count;
+            return averageScore;
         }
         public void DisplayStats()
         {
             Console.WriteLine($"Statistics for {name}'s class:");
             Console.WriteLine($"Number of Students: {grades.Count}");
-            Console.WriteLine($"Highest Score: {lowestGrade}");
-            Console.WriteLine($"Lowest Score: {highestGrade}");
-            Console.WriteLine($"Average Score: {averageScore:N2}");
         }
     }
 }
