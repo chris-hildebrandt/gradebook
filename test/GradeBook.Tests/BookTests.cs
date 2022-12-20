@@ -15,9 +15,8 @@ public class BookTests
         var result = book.GetStats();
 
         // assert
-        Assert.Equal(85.6, result.Average);
-        Assert.Equal(90.5, result.HighScore);
-        Assert.Equal(77.3, result.LowScore);
-
+        Assert.Equal(85.6, result.Average, 1);
+        Assert.Equal(90.5, result.HighScore, 1);
+        Assert.Equal(77.3, result.LowScore, 1);
     }
 }
