@@ -33,7 +33,11 @@ namespace GradeBook
             {
                 grades.Add(grade);
             }
-            Console.WriteLine("invalid grade format");
+            else 
+            {
+                throw new ArgumentException($"Invalid {nameof(grade)}")
+            }
+            
         }
         public Stats GetStats()
         {
