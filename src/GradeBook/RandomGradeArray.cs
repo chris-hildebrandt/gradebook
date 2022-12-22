@@ -4,9 +4,9 @@ namespace GradeBook
     {
         public RandomGradeArray(int studentCount)
         {
-           List<double> grades = GetGrades(studentCount);
-           grades = new List<double>();
+           List<double> grades = this.GetGrades(studentCount);
         }
+           List<double> grades = new List<double>();
         public List<double> GetGrades(int studentCount)
         {
             Random grade = new Random();

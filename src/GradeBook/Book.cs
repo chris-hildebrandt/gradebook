@@ -35,7 +35,7 @@ namespace GradeBook
             }
             else 
             {
-                throw new ArgumentException($"Invalid {nameof(grade)}")
+                throw new ArgumentException($"Invalid {nameof(grade)}");
             }
             
         }
@@ -53,7 +53,7 @@ namespace GradeBook
                 // grade.Letter = AddLetterGrade(grade); add per grade in the future
             }
             result.Average /= grades.Count;
-            result.Letter = GetLetterGrade(result.Average)
+            result.Letter = GetLetterGrade(result.Average);
             Console.WriteLine($"Statistics for {Name}'s class:");
             Console.WriteLine($"Number of Students: {grades.Count}");
             return result;
