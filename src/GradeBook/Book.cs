@@ -3,7 +3,23 @@ namespace GradeBook
     public class Book
     {
         private List<double> grades;
-        public string Name;
+
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    name = value;
+                }
+            }
+        }
+        private string name;
+
         private double sumOfGrades;
         public Book(string name)
         {
@@ -12,18 +28,18 @@ namespace GradeBook
         }
         public char GetLetterGrade(double grade)
         {
-            switch(grade)
+            switch (grade)
             {
                 case var g when g >= 90:
-                return 'A';
+                    return 'A';
                 case var g when g >= 80:
-                return 'B';
+                    return 'B';
                 case var g when g >= 70:
-                return 'C';
+                    return 'C';
                 case var g when g >= 60:
-                return 'D';
+                    return 'D';
                 default:
-                return 'F';
+                    return 'F';
 
             }
         }
@@ -33,11 +49,11 @@ namespace GradeBook
             {
                 grades.Add(grade);
             }
-            else 
+            else
             {
                 throw new ArgumentException($"Invalid {nameof(grade)}");
             }
-            
+
         }
         public Stats GetStats()
         {
@@ -69,7 +85,7 @@ namespace GradeBook
         {
             double highScore = double.MinValue;
             var index = 0;
-            while(index < grades.Count)
+            while (index < grades.Count)
             {
                 highScore = Math.Max(grades[index], highScore);
                 index += 1;
