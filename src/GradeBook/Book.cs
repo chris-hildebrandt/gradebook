@@ -3,12 +3,29 @@ namespace GradeBook
     public class Book
     {
         private List<double> grades;
-        private string name;
+        public string Name;
         private double sumOfGrades;
         public Book(string name)
         {
             grades = new List<double>();
-            this.name = name;
+            Name = name;
+        }
+        public char GetLetterGrade(double grade)
+        {
+            switch(grade)
+            {
+                case var g when g >= 90:
+                return 'A';
+                case var g when g >= 80:
+                return 'B';
+                case var g when g >= 70:
+                return 'C';
+                case var g when g >= 60:
+                return 'D';
+                default:
+                return 'F';
+
+            }
         }
         public void AddGrade(double grade)
         {
@@ -16,6 +33,7 @@ namespace GradeBook
             {
                 grades.Add(grade);
             }
+            Console.WriteLine("invalid grade format");
         }
         public Stats GetStats()
         {
@@ -28,9 +46,11 @@ namespace GradeBook
                 result.LowScore = Math.Min(grade, result.LowScore);
                 result.HighScore = Math.Max(grade, result.HighScore);
                 result.Average += grade;
+                // grade.Letter = AddLetterGrade(grade); add per grade in the future
             }
             result.Average /= grades.Count;
-            Console.WriteLine($"Statistics for {name}'s class:");
+            result.Letter = GetLetterGrade(result.Average)
+            Console.WriteLine($"Statistics for {Name}'s class:");
             Console.WriteLine($"Number of Students: {grades.Count}");
             return result;
         }
@@ -44,10 +64,12 @@ namespace GradeBook
         public double GetHighestGrade()
         {
             double highScore = double.MinValue;
-            foreach (var number in grades)
+            var index = 0;
+            while(index < grades.Count)
             {
-                highScore = Math.Max(number, highScore);
-            }
+                highScore = Math.Max(grades[index], highScore);
+                index += 1;
+            };
             return highScore;
         }
         public double GetLowestGrade()
@@ -66,7 +88,7 @@ namespace GradeBook
         }
         public void DisplayStats()
         {
-            Console.WriteLine($"Statistics for {name}'s class:");
+            Console.WriteLine($"Statistics for {Name}'s class:");
             Console.WriteLine($"Number of Students: {grades.Count}");
         }
     }

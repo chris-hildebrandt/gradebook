@@ -5,13 +5,21 @@ namespace GradeBook
     class Program
     {
         static void Main(string[] args)
-        {
+        {         
             var greeting = new Greeting(args);
             greeting.Message(args);
             var book = new Book("Professor H");
-            book.AddGrade(89.1);
-            book.AddGrade(90.5);
-            book.AddGrade(77.3);
+
+            while(true)
+            {
+                Console.WriteLine("Enter a grade, or 'q' when done");
+                var input = Console.ReadLine();
+                if (input == "q")
+                {
+                    break;
+                }
+                book.AddGrade(double.Parse(input));
+            }
 
             var stats = book.GetStats();
 
