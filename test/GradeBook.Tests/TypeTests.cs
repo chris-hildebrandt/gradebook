@@ -3,15 +3,29 @@ namespace GradeBook.Tests;
 public class TypeTests
 {
     [Fact]
-    public void ValueTypesAlsoPassByValue()
+    public void ValueTypesCanPassByRef()
     {
         var x = GetInt();
-        SetInt(ref x);
+        SetInt1(ref x);
 
         Assert.Equal(42, x);
     }
+    
+    [Fact]
+    public void ValueTypesTest()
+    {
+        var x = GetInt();
+        SetInt(x);
 
-    private void SetInt(ref Int32 z)
+        Assert.Equal(3, x);
+    }
+
+    private void SetInt(int x)
+    {
+        x = 42;
+    }
+
+    private void SetInt1(ref Int32 z)
     {
         z = 42;
     }
@@ -20,7 +34,7 @@ public class TypeTests
     {
         return 3;
     }
-    
+
     [Fact]
     public void StringsBehaveLikeValueTypes()
     {
@@ -31,6 +45,8 @@ public class TypeTests
         // assert
         Assert.Equal("chris", name);
     }
+
+    [Fact]
     public void StringsBehaveLikeValueTypes2()
     {
         // arrange
@@ -65,6 +81,7 @@ public class TypeTests
     private void GetBookSetNameByRef(ref Book book, string name)
     {
         book = new Book(name);
+        // ref needs to be in both the param and the arg to protect the original ref from being changed by accident.
     }
 
     [Fact]
@@ -114,6 +131,8 @@ public class TypeTests
         Assert.Equal("Book 2", book2.Name);
         Assert.NotSame(book1, book2);
     }
+
+    [Fact]
     public void TwoVariablesCanRefSameObject()
     {
         // arrange
