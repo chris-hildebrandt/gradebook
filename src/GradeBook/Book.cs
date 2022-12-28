@@ -1,5 +1,6 @@
 namespace GradeBook
 {
+    public void delegate GradeAddedDelegate();
     public class Book
     {
         private List<double> grades;

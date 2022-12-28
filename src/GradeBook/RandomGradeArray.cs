@@ -1,6 +1,6 @@
 namespace GradeBook
 {
-    class RandomGradeArray
+    public class RandomGradeArray
     {
         public RandomGradeArray(int studentCount)
         {

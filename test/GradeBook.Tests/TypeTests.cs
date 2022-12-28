@@ -3,6 +3,25 @@ namespace GradeBook.Tests;
 public class TypeTests
 {
     [Fact]
+    public void ValueTypesAlsoPassByValue()
+    {
+        var x = GetInt();
+        SetInt(ref x);
+
+        Assert.Equal(42, x);
+    }
+
+    private void SetInt(ref Int32 z)
+    {
+        z = 42;
+    }
+
+    private int GetInt()
+    {
+        return 3;
+    }
+    
+    [Fact]
     public void StringsBehaveLikeValueTypes()
     {
         // arrange
