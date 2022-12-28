@@ -17,13 +17,21 @@ namespace GradeBook
                 {
                     name = value;
                 }
+                else 
+                {
+                    throw new Exception("Invalid Name");
+                }
             }
         }
         private string name;
 
         private double sumOfGrades;
+        readonly string category;
+        public const string SCHOOL = "Codeworks";
+        // can only ever be read, is accessed through the class, not an instance so Book.SCHOOL not book.SCHOOL, because the compiler doesn't need to make a separate instance for each book, it is a universal constant.
         public Book(string name)
         {
+            category = "Misc";
             grades = new List<double>();
             Name = name;
         }
