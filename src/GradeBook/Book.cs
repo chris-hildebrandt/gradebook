@@ -2,35 +2,44 @@ namespace GradeBook
 {
     public delegate void GradeAddedDelegate(object sender, EventArgs args);
 
-    public class Book
+    public class NamedObject
     {
-        private List<double> grades;
+        public NamedObject(string name)
+        {
+            Name = name;
+        }
 
         public string Name
         {
+
             get
             {
-                return name;
+                return Name;
             }
             set
             {
                 if (!string.IsNullOrEmpty(value))
                 {
-                    name = value;
+                    Name = value;
                 }
-                else 
+                else
                 {
                     throw new Exception("Invalid Name");
                 }
             }
         }
+    }
+
+    public class Book : NamedObject
+    {
+        private List<double> grades;
         private string name;
 
         private double sumOfGrades;
         readonly string category;
         public const string SCHOOL = "Codeworks";
         // can only ever be read, is accessed through the class, not an instance so Book.SCHOOL not book.SCHOOL, because the compiler doesn't need to make a separate instance for each book, it is a universal constant.
-        public Book(string name)
+        public Book(string name) : base(name)
         {
             category = "Misc";
             grades = new List<double>();
@@ -60,7 +69,7 @@ namespace GradeBook
                 grades.Add(grade);
 
                 // how do we inform other pieces of code that this event has taken place?
-                if(GradeAdded != null)
+                if (GradeAdded != null)
                 // ^only if someone is listening
                 {
                     GradeAdded(this, new EventArgs());
