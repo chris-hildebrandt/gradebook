@@ -9,6 +9,7 @@ namespace GradeBook
             var greeting = new Greeting(args);
             greeting.Message(args);
             var book = new Book("Professor H");
+            book.GradeAdded += OnGradeAdded;
 
             while(true)
             {
@@ -42,6 +43,11 @@ namespace GradeBook
             Console.WriteLine($"Highest Score: {stats.LowScore}");
             Console.WriteLine($"Lowest Score: {stats.HighScore}");
             Console.WriteLine($"Average Score: {stats.Average:N2}");
+        }
+
+        static void OnGradeAdded(object sender, EventArgs e)
+        {
+            Console.WriteLine("A Grade Was Added");
         }
     }
 }
