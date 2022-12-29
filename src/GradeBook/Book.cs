@@ -1,6 +1,7 @@
 namespace GradeBook
 {
-    public void delegate GradeAddedDelegate();
+    public delegate void GradeAddedDelegate(object sender, EventArgs args);
+
     public class Book
     {
         private List<double> grades;
@@ -57,13 +58,22 @@ namespace GradeBook
             if (grade >= 0 && grade <= 100)
             {
                 grades.Add(grade);
+
+                // how do we inform other pieces of code that this event has taken place?
+                if(GradeAdded != null)
+                // ^only if someone is listening
+                {
+                    GradeAdded(this, new EventArgs());
+                }
             }
             else
             {
                 throw new ArgumentException($"Invalid {nameof(grade)}");
             }
-
         }
+
+        public event GradeAddedDelegate GradeAdded;
+
         public Stats GetStats()
         {
             var result = new Stats();
