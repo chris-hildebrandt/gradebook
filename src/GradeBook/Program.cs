@@ -30,6 +30,10 @@ namespace GradeBook
                 {
                     break;
                 }
+                if (input == null)
+                {
+                    throw new Exception("no entry made");
+                }
                 try
                 {
                     var grade = double.Parse(input);
