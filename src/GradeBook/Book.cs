@@ -30,7 +30,46 @@ namespace GradeBook
         }
     }
 
-    public class Book : NamedObject
+    public interface IBook
+    {
+        void AddGrade(double grade);
+        Stats GetStats();
+        string Name { get; }
+        event GradeAddedDelegate GradeAdded;
+    }
+
+    public abstract class Book : NamedObject, IBook
+    {
+        protected Book(string name) : base(name)
+        {
+        }
+
+        public abstract event GradeAddedDelegate GradeAdded;
+        public abstract void AddGrade(double grade);
+        public abstract Stats GetStats();
+    }
+
+    public class DiskBook : Book
+    {
+        public DiskBook(string name) : base(name)
+        {
+        }
+
+        public override event GradeAddedDelegate GradeAdded;
+
+        public override void AddGrade(double grade)
+        {
+            var writer = File.AppendText($"{Name}.txt");
+            writer.WriteLine(grade);
+        }
+
+        public override Stats GetStats()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class InMemoryBook : Book
     {
         private List<double> grades;
         private string name;
@@ -39,7 +78,7 @@ namespace GradeBook
         readonly string category;
         public const string SCHOOL = "Codeworks";
         // can only ever be read, is accessed through the class, not an instance so Book.SCHOOL not book.SCHOOL, because the compiler doesn't need to make a separate instance for each book, it is a universal constant.
-        public Book(string name) : base(name)
+        public InMemoryBook(string name) : base(name)
         {
             category = "Misc";
             grades = new List<double>();
@@ -62,7 +101,7 @@ namespace GradeBook
 
             }
         }
-        public void AddGrade(double grade)
+        public override void AddGrade(double grade)
         {
             if (grade >= 0 && grade <= 100)
             {
@@ -81,9 +120,9 @@ namespace GradeBook
             }
         }
 
-        public event GradeAddedDelegate GradeAdded;
+        public override event GradeAddedDelegate GradeAdded;
 
-        public Stats GetStats()
+        public override Stats GetStats()
         {
             var result = new Stats();
             result.Average = 0.0;

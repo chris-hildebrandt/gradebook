@@ -5,13 +5,24 @@ namespace GradeBook
     class Program
     {
         static void Main(string[] args)
-        {         
+        {
             var greeting = new Greeting(args);
             greeting.Message(args);
-            var book = new Book("Professor H");
+            IBook book = new DiskBook("Professor H");
             book.GradeAdded += OnGradeAdded;
 
-            while(true)
+            EnterGrades(book);
+
+            var stats = book.GetStats();
+
+            Console.WriteLine($"Highest Score: {stats.LowScore}");
+            Console.WriteLine($"Lowest Score: {stats.HighScore}");
+            Console.WriteLine($"Average Score: {stats.Average:N2}");
+        }
+
+        private static void EnterGrades(IBook book)
+        {
+            while (true)
             {
                 Console.WriteLine("Enter a grade, or 'q' when done");
                 var input = Console.ReadLine();
@@ -19,16 +30,16 @@ namespace GradeBook
                 {
                     break;
                 }
-                try 
+                try
                 {
                     var grade = double.Parse(input);
                     book.AddGrade(grade);
                 }
-                catch(ArgumentException ex)
+                catch (ArgumentException ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
-                catch(FormatException ex)
+                catch (FormatException ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
@@ -37,12 +48,6 @@ namespace GradeBook
                     Console.WriteLine("*****");
                 }
             }
-
-            var stats = book.GetStats();
-
-            Console.WriteLine($"Highest Score: {stats.LowScore}");
-            Console.WriteLine($"Lowest Score: {stats.HighScore}");
-            Console.WriteLine($"Average Score: {stats.Average:N2}");
         }
 
         static void OnGradeAdded(object sender, EventArgs e)

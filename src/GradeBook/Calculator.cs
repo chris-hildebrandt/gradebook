@@ -14,6 +14,7 @@ namespace GradeBook
                 grades.Add(grade);
             }
         }
+
         public void GetSumOfGrades(List<double>grades)
         {
             for (int i = 0; i < grades.Count; i++)
