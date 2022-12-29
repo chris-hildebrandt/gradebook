@@ -59,13 +59,30 @@ namespace GradeBook
 
         public override void AddGrade(double grade)
         {
-            var writer = File.AppendText($"{Name}.txt");
-            writer.WriteLine(grade);
+            using (var writer = File.AppendText($"{Name}.txt"))
+            {
+                writer.WriteLine(grade);
+                if(GradeAdded != null)
+                {
+                    GradeAdded(this, new EventArgs());
+                }
+            }
         }
 
         public override Stats GetStats()
         {
-            throw new NotImplementedException();
+            var result = new Stats();
+            using(var reader = File.OpenText($"{Name}.txt"))
+            {
+                var line = reader.ReadLine();
+                while(line != null)
+                {
+                    var number = double.Parse(line);
+                    result.Add(number);
+                    line = reader.ReadLine();
+                }
+            }
+            return result;
         }
     }
 
@@ -84,23 +101,7 @@ namespace GradeBook
             grades = new List<double>();
             Name = name;
         }
-        public char GetLetterGrade(double grade)
-        {
-            switch (grade)
-            {
-                case var g when g >= 90:
-                    return 'A';
-                case var g when g >= 80:
-                    return 'B';
-                case var g when g >= 70:
-                    return 'C';
-                case var g when g >= 60:
-                    return 'D';
-                default:
-                    return 'F';
 
-            }
-        }
         public override void AddGrade(double grade)
         {
             if (grade >= 0 && grade <= 100)
@@ -125,18 +126,13 @@ namespace GradeBook
         public override Stats GetStats()
         {
             var result = new Stats();
-            result.Average = 0.0;
-            result.HighScore = double.MinValue;
-            result.LowScore = 101;
-            foreach (var grade in grades)
+            
+            foreach(var grade in grades)
             {
-                result.LowScore = Math.Min(grade, result.LowScore);
-                result.HighScore = Math.Max(grade, result.HighScore);
-                result.Average += grade;
+                result.Add(grade);
                 // grade.Letter = AddLetterGrade(grade); add per grade in the future
             }
-            result.Average /= grades.Count;
-            result.Letter = GetLetterGrade(result.Average);
+
             Console.WriteLine($"Statistics for {Name}'s class:");
             Console.WriteLine($"Number of Students: {grades.Count}");
             return result;
